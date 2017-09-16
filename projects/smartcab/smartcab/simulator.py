@@ -99,7 +99,7 @@ class Simulator(object):
                     self.log_filename = os.path.join("logs", "sim_default-learning.csv")
                     self.table_filename = os.path.join("logs","sim_default-learning.txt")
 
-                self.table_file = open(self.table_filename, 'wb')
+                self.table_file = open(self.table_filename, 'wb+')
             else:
                 self.log_filename = os.path.join("logs", "sim_no-learning.csv")
             
