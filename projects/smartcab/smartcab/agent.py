@@ -18,7 +18,8 @@ class LearningAgent(Agent):
         self.Q = dict()          # Create a Q-table which will be a dictionary of tuples
         self.epsilon = epsilon   # Random exploration factor
         self.alpha = alpha       # Learning factor
-        self.gamma = 1           # no discount factor
+        random.seed(19)          # set random seed
+        self.trial = 0           # count trials
 
         ###########
         ## TO DO ##
@@ -41,9 +42,14 @@ class LearningAgent(Agent):
         # Update additional class parameters as needed
         # If 'testing' is True, set epsilon and alpha to 0
         if testing:
-            self.epsilon, self.alpha = 0,0
+            self.epsilon, self.alpha, self.trial = 0,0,0
         else:
-            self.epsilon = self.epsilon - 0.05
+            self.trial += 1
+            self.epsilon = 1/(1+(math.exp(self.trial/2-10)))
+            self.alpha = .6/(1+(math.exp(self.trial/2-10))) + .2
+            #self.alpha = max(.975 * self.alpha, .2) 
+            #self.epsilon = self.epsilon**1.5
+            #self.epsilon = self.epsilon - 0.05
 
         return None
 
@@ -61,13 +67,16 @@ class LearningAgent(Agent):
         ## TO DO ##
         ###########
         
-        # NOTE : you are not allowed to engineer eatures outside of the inputs available.
+        # NOTE : you are not allowed to engineer features outside of the inputs available.
         # Because the aim of this project is to teach Reinforcement Learning, we have placed 
         # constraints in order for you to learn how to adjust epsilon and alpha, and thus learn about the balance between exploration and exploitation.
         # With the hand-engineered features, this learning process gets entirely negated.
         
         # Set 'state' as a tuple of relevant data for the agent        
-        state = (waypoint, inputs['light'],inputs['oncoming'])
+        state = (waypoint, inputs['light'], inputs['left']) #3*2*4 = 24 states
+        
+        #This construction of 'state' assumes we are not allowed to even create a feature such as inputs['left'] == 'forward', 
+        #which would cut down our feature space by half without loss of information.
 
         return state
 
@@ -136,7 +145,7 @@ class LearningAgent(Agent):
         # When learning, implement the value iteration update rule
         #   Use only the learning rate 'alpha' (do not use the discount factor 'gamma')
 
-        self.Q[state][action] += self.alpha*(reward + self.gamma*self.get_maxQ(state) - self.Q[state][action])
+        self.Q[state][action] += self.alpha*(reward - self.Q[state][action])
         return 
 
     def update(self):
@@ -171,7 +180,7 @@ def run():
     #   learning   - set to True to force the driving agent to use Q-learning
     #    * epsilon - continuous value for the exploration factor, default is 1
     #    * alpha   - continuous value for the learning rate, default is 0.5
-    agent = env.create_agent(LearningAgent, learning = True)
+    agent = env.create_agent(LearningAgent, learning = True, epsilon = .9999, alpha = .8)
     
     ##############
     # Follow the driving agent
@@ -186,15 +195,14 @@ def run():
     #   display      - set to False to disable the GUI if PyGame is enabled
     #   log_metrics  - set to True to log trial and simulation results to /logs
     #   optimized    - set to True to change the default log file name
-    sim = Simulator(env, update_delay = 0.01, log_metrics = True)
+    sim = Simulator(env, update_delay = .001, display = False, log_metrics = True, optimized = True)
     
     ##############
     # Run the simulator
     # Flags:
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05 
     #   n_test     - discrete number of testing trials to perform, default is 0
-    sim.run(n_test = 10)
-
+    sim.run(tolerance = 0.0001, n_test = 10)
 
 if __name__ == '__main__':
     run()
