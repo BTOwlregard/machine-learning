@@ -15,11 +15,14 @@ Credit card issuers have an interest in predicting loan defaults (non-payment) i
   - regulators may require that predictive models meet certain standards of interpretability, or that customers' be provided with clear reasons why their applications for or access to credit has been restricted 4
   - on the other hand, there may be situations where a predictive model is meant only for internal use by the issuer or where the usage is subject to different regulations (e.g. determining who should receive certain marketing or account messaging), and the issuer may be willing to sacrifice interpretability and simplicity for predictive power
 
-Thus, there is unlikely single model of customer credit behavior that serves all of a credit issuer's needs. Rather, issuers must identify a suite of models that serve different business needs. With this in mind, our task in this project will be fourfold:
-* to test a variety of modeling approaches to predict credit card payment default
-* to identify the modeling approach with the best predictive performance, based on our chosen evaluation metrics (see below)
-* to classify our other modeling approaches according to the interpretability of the model and strength of prediction and identify situationsin which we may choose these models over other with stronger predictive performance
+Thus, there is unlikely single model of customer credit behavior that serves all of a credit issuer's needs. Rather, issuers must identify a suite of models that serve different business needs. With this in mind, this project will have several distinct goals:
+* to test a variety of modeling approaches with the goal of predicting credit card payment default
+* to identify which customer performance variables are most important to predicting future default
+* to identify the modeling approach with the best predictive performance, based on our chosen evaluation metrics (see below), with no restrictions on features
+* to develop another best-performance model, this time under a set of simulated regulatory and business restrictions (i.e. no demographic variables, and no neural networks or difficult-to-interpret high order model features)
 * to explain how our choice of model and decision boundary would change depending on the relative cost of false negatives and false positives 
+* to classify all tested modeling approaches according to the strength of prediction and interpretability of the model, and identify situationsin which we may choose these models over other approaches 
+
 ### Dataset and Inputs 
 ### Proposed Solution
 ### Benchmark Model 
