@@ -50,7 +50,7 @@ From the Kaggle summary of the dataset:
 * PAY_AMT4: Amount of previous payment in June, 2005 (NT dollar)
 * PAY_AMT5: Amount of previous payment in May, 2005 (NT dollar)
 * PAY_AMT6: Amount of previous payment in April, 2005 (NT dollar)
-* default.payment.next.month: Default payment (1=yes, 0=no)
+* default.payment.next.month: Default payment (1=yes, 0=no) </br>
 Categorical inputs, such as demographic variables, will be one-hot encoded prior to modeling. PAY_X variables can take on values from -2 to 9. Values from 1 to 9 are ordinal, and represent how months the customer was past due on their payments, but values from -2 to 0 all represent 0 months past due (customer is current on their payments), however with different balances statuses. Thus, the PAY_X variables are only partially ordinal. To account for this, we'll split the PAY_X variables into a few different variables: one ordinal with values 0-9 that indicate months past due, and another set of three one-hot encoded variables to cover the values from -2 to 0. 
 ### Proposed Solution
 ### Benchmark Model 
